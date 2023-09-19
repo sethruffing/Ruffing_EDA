@@ -382,12 +382,14 @@ def main():
 
                     # Create a DataFrame for the regression line data
                     regression_data = pd.DataFrame({x_column: X_plot.flatten(), y_column: Y_plot})
-
-                    # Add the regression line trace next (on top)
-                    fig.add_trace(px.line(regression_data, x=x_column, y=y_column).data[0])
-
-                    # Customize the regression line trace
-                    fig.update_traces(line_color='red', line_width=3)
+                    try:
+                        # Add the regression line trace next (on top)
+                        fig.add_trace(px.line(regression_data, x=x_column, y=y_column).data[0])
+    
+                        # Customize the regression line trace
+                        fig.update_traces(line_color='red', line_width=3)
+                    except ValueError:
+                        st.error("There is a ValueError, try dropping the NaN values by the checking the box on the sidebar")
 
                 # Display the plot using Streamlit
                 st.plotly_chart(fig)
