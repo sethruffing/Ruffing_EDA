@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import statsmodels.api as sm
 from tabulate import tabulate
 import numpy as np
 from scipy.stats import linregress
@@ -14,6 +13,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import silhouette_score
+import statsmodels.api as sm
 
 import streamlit as st
 
