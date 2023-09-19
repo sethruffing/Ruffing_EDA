@@ -3,7 +3,6 @@ tabulate
 numpy
 scipy
 plotly
-io
 sklearn
 statsmodels
 woe
