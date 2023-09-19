@@ -1,0 +1,12 @@
+streamlit
+pandas
+statsmodels.api
+tabulate
+numpy
+scipy.stats
+plotly.express
+plotly.subplots
+plotly.graph_objects
+plotly.io
+io
+sklearn
