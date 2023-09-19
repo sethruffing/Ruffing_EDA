@@ -388,8 +388,6 @@ def main():
 
                     # Customize the regression line trace
                     fig.update_traces(line_color='red', line_width=3)
-                
-                    st.error("There is a ValueError, try dropping the NaN values by the checking the box on the sidebar")
 
                 # Display the plot using Streamlit
                 st.plotly_chart(fig)
