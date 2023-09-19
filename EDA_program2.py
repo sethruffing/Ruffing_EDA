@@ -480,6 +480,8 @@ def main():
                                     title="K-means Clustering")
                     st.plotly_chart(fig)
 
+                    st.text("Remember that this only plots the first two dimensions, but the \namount of dimensions depends on the amount of features listed")
+
                     # Display clustering results
                     st.subheader("Clustering Results")
                     st.write(data[['Cluster'] + selected_features])
