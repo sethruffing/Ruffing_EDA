@@ -3,6 +3,6 @@ tabulate
 numpy
 scipy
 plotly
-sklearn
+scikit-learn
 statsmodels
 io
