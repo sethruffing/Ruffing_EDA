@@ -1,6 +1,6 @@
 streamlit
 pandas
-statsmodels
+statsmodels==0.13.2
 tabulate
 numpy
 scipy
