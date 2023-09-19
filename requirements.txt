@@ -15,3 +15,4 @@ sklearn.preprocessing import PolynomialFeatures
 sklearn.cluster import KMeans
 sklearn.model_selection import train_test_split
 sklearn.metrics import silhouette_score
+woe
