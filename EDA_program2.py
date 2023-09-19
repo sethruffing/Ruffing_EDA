@@ -337,7 +337,7 @@ def main():
                     st.write("Significance level:", significance_level)
                     st.write("Significant variables:", ", ".join(significant_vars))
                 except:
-                    st.text("There is an error with your regression.\nNote that you cannot regression on categorical variables, string variables, and \nmissing values")
+                    st.text("There is an error with your regression.\nNote that you cannot regress on categorical variables, string variables, and \nmissing values")
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         elif analysis_type == "Data Visualizations":
             
