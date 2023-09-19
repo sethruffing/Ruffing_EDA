@@ -1,6 +1,10 @@
-streamlit==1.5.0
+streamlit
 pandas
 tabulate
 numpy
 scipy
+plotly
+io
 sklearn
+statsmodels
+woe
