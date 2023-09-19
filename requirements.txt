@@ -1,12 +1,16 @@
-streamlit
-pandas
-statsmodels
-tabulate
-numpy
-scipy.stats
-plotly.express
-plotly.subplots
-plotly.graph_objects
-plotly.io
-io
-sklearn
+import streamlit as st
+import pandas as pd
+import statsmodels.api as sm
+from tabulate import tabulate
+import numpy as np
+from scipy.stats import linregress
+import plotly.express as px
+import plotly.subplots as sp
+import plotly.graph_objects as go
+import plotly.io as pio
+import io
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.cluster import KMeans
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import silhouette_score
