@@ -1,6 +1,6 @@
 streamlit
 pandas
-statsmodels.api
+statsmodels
 tabulate
 numpy
 scipy.stats
