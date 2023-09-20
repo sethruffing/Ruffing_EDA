@@ -414,7 +414,7 @@ def main():
                         Y_plot = reg.predict(X_plot)
 
                         # Calculate the regression equation
-                        slope, intercept, r_value, p_value, std_err = stats.linregress(data[x_column], data[y_column])
+                        slope, intercept, r_value, p_value, std_err = stats.linregress(data[X], data[Y])
                         equation = f"Y = {slope:.2f}X + {intercept:.2f}"
                         R_squared = f"{r_value**2:.4f}"
                         P_value = f"{p_value:.4f}"
