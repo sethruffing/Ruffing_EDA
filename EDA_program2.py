@@ -308,8 +308,8 @@ def main():
             st.subheader("Scatter Plot and Regression Analysis")
 
             # Plotting X and Y columns
-            y_column = st.selectbox("Select y-column variable", data.columns,key='dfhkh')
-            x_column = st.selectbox("Select X-column", data.columns,key='sfodkn')
+            x_column = st.selectbox("Select X-column variable", data.columns,key='sfodkn')
+            y_column = st.selectbox("Select Y-column variable", data.columns,key='dfhkh')
             
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line",key='prl')
