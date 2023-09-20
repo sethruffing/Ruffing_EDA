@@ -3,6 +3,7 @@ import pandas as pd
 from tabulate import tabulate
 import numpy as np
 from scipy.stats import linregress
+from scipy.stats import stats
 import plotly.express as px
 import plotly.subplots as sp
 import plotly.graph_objects as go
@@ -387,6 +388,12 @@ def main():
                         reg = LinearRegression().fit(X, Y)
                         X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
                         Y_plot = reg.predict(X_plot)
+
+                        # Calculate the regression equation
+                        slope, intercept, r_value, p_value, std_err = stats.linregress(data[x_column], data[y_column])
+                        equation = f"Y = {slope:.2f}X + {intercept:.2f}, R-squared = {r_value**2:.2f}"
+
+                        st.write(equation)
                 
                     # Add the regression line as a trace to the figure
                     regression_trace = go.Scatter(
