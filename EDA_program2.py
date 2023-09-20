@@ -433,10 +433,10 @@ def main():
 
                 st.write("MSE Train: " + f"{mse_train:.4f}")
                 st.write("MSE Test: " + f"{mse_test:.4f}")
-                st.write("MSE Percent Difference: " + f"{mse_percent_error:.4f}")
+                st.write("MSE Percent Difference: " + f"{mse_percent_error:.2f}" + "%")
                 st.write("R-squared Train: " + f"{r_squared_train:.4f}")
                 st.write("R-squared Test: " + f"{r_squared_test:.4f}")
-                st.write("R-squared Percent Difference: " + f"{r_squared_percent_error:.4f}")
+                st.write("R-squared Percent Difference: " + f"{r_squared_percent_error:.2f}" + "%")
             
             # Show the chart
             st.plotly_chart(fig)
