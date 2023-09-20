@@ -384,6 +384,23 @@ def main():
                         X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
                         X_plot_poly = poly_features.transform(X_plot)
                         Y_plot = reg.predict(X_plot_poly)
+
+                        # Get the coefficients for the polynomial equation
+                        coefficients = reg.coef_
+                        intercept = reg.intercept_
+                
+                        # Build the polynomial equation as a string dynamically
+                        equation = f"Y = "
+                        for i, coef in enumerate(coefficients):
+                            if i == 0:
+                                equation += f"{coef:.2f}"
+                            else:
+                                equation += f" + {coef:.2f}X^{i}"
+                
+                        equation += f" + {intercept:.2f}"
+
+                        st.write(equation)
+                        
                     else:
                         reg = LinearRegression().fit(X, Y)
                         X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
