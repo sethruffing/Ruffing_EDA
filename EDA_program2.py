@@ -304,9 +304,12 @@ def main():
 
     #---------------------------------------------------Regression Analysis Section-------------------------------------------------------------------
         elif analysis_type == "Regression Analysis":
-            st.header("Regression Analysis")
-                            
+            st.header("Regression Analysis")        
             st.subheader("Scatter Plot and Regression Analysis")
+
+            # Plotting X and Y columns
+            y_column = st.selectbox("Select y-column variable", data.columns,key='dfhkh')
+            x_column = st.seelctbox("Select X-column", data.columns,key='sfodkn')
             
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line",key='prl')
