@@ -438,7 +438,7 @@ def main():
                 }
                 
                 # Define the row index (row headers)
-                index = ["MSE Train", "MSE Test", "MSE % Difference", "R-Squared Train", "R-Squared Test", "R-Squared % Difference"]
+                index = ["Train", "Test", "% Difference"]
                 
                 # Create the DataFrame
                 results_df = pd.DataFrame(results, index=index)
