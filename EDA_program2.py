@@ -442,17 +442,21 @@ def main():
                 x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
-                # Allow the user to enter a "bucket" number (N)
-                bucket_number = st.slider("Enter the Bucket Number (N) for X-axis", min_value=1, max_value=len(data), value=1, key="bucket_number")
+                # Calculate the minimum and maximum values of the selected X-axis column
+                min_x = data[x_axis_column].min()
+                max_x = data[x_axis_column].max()
+                
+                # Allow the user to enter a "bucket" number (N) within the range of min_x to max_x
+                bucket_number = st.slider("Enter the Bucket Number (N) for X-axis", min_value=min_x, max_value=max_x, value=min_x, key="bucket_number")
                 
                 # Calculate the number of data points per bucket
                 num_data_points = len(data)
-                num_buckets = num_data_points // bucket_number
+                num_buckets = num_data_points // int(bucket_number)
                 
                 # Create a DataFrame with aggregated data for the x-axis
                 x_data = pd.DataFrame()
                 x_data['Bucket'] = [i for i in range(num_buckets)]
-                x_data[x_axis_column] = [data.iloc[i:i + bucket_number][x_axis_column].mean() for i in range(0, num_data_points, bucket_number)]
+                x_data[x_axis_column] = [data.iloc[i:i + num_buckets][x_axis_column].mean() for i in range(0, num_data_points, num_buckets)]
                 
                 # Perform aggregation based on the user's selection for the y-axis
                 aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
