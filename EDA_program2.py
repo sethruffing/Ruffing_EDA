@@ -433,22 +433,24 @@ def main():
                 st.divider()
 
                 # Time Series-----------------------------------------------------------------------------------------------------------------------------------------------------------
-                st.subheader("Time Series Analysis (if applicable)")
+                st.subheader("Line Charts")
                 
-                # Identify the x-axis column
-                x_axis_column = identify_x_axis(data)
-                
-                # Allow the user to select the y-axis column for the main line
+                # Selecting columns for x and y variables
+                x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
-                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum"], key="aggregation_select")
+                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum", "Median","Count"], key="aggregation_select")
                 
                 # Perform aggregation based on the user's selection for the main line
                 if aggregation_type == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
                 elif aggregation_type == "Sum":
                     y_data = data.groupby(x_axis_column)[y_axis_column].sum().reset_index()
+                elif aggregation_type == "Median":
+                    y_data = data.groupby(x_axis_column)[y_axis_column].median().reset_index()
+                elif aggregation_type == "Count":
+                    y_data = data.groupby(x_axis_column)[y_axis_column].count().reset_index()
                 
                 # Sort the data by the x-axis column in ascending order
                 y_data = y_data.sort_values(by=[x_axis_column])
@@ -465,9 +467,6 @@ def main():
                     yaxis_title=y_axis_column,
                     title=f"{aggregation_type} {y_axis_column} over Time"
                 )
-                
-                # Specify that the x-axis is a date axis
-                fig.update_xaxes(type='date')
                 
                 # Show the chart
                 st.plotly_chart(fig)
