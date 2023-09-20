@@ -307,12 +307,9 @@ def main():
             st.header("Regression Analysis")
                             
             st.subheader("Scatter Plot and Regression Analysis")
-            # Create two columns for checkboxes
-            col1, col2 = st.beta_columns(2)
-            with col1:
-                plot_regression = st.checkbox("Plot Regression Line")
-            with col2:
-                tts_box = st.checkbox("Train-Test Split")
+            
+            plot_regression = st.checkbox("Plot Regression Line")
+            tts_box = st.checkbox("Train-Test Split")
             
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line"), st.checkbox("Train-Test Split")
