@@ -388,7 +388,6 @@ def main():
                         # Get the coefficients for the polynomial equation
                         coefficients = reg.coef_
                         intercept = reg.intercept_
-                        p_values = reg.pvalues
                         
                 
                         # Build the polynomial equation as a string dynamically
