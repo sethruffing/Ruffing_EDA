@@ -437,36 +437,50 @@ def main():
 
                 # Time Series-----------------------------------------------------------------------------------------------------------------------------------------------------------
                 st.subheader("Line Charts")
-
+                
                 # Selecting columns for x and y variables
                 x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
+                aggregation_type_x = st.selectbox("Select Aggregation Type for X-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_x")
                 aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
                 
                 # Perform aggregation based on the user's selection for the main line
-                if aggregation_type == "Mean":
+                if aggregation_type_x == "Mean":
+                    x_data = data.groupby(x_axis_column)[x_axis_column].mean().reset_index()
+                elif aggregation_type_x == "Sum":
+                    x_data = data.groupby(x_axis_column)[x_axis_column].sum().reset_index()
+                elif aggregation_type_x == "Median":
+                    x_data = data.groupby(x_axis_column)[x_axis_column].median().reset_index()
+                elif aggregation_type_x == "Count":
+                    x_data = data.groupby(x_axis_column)[x_axis_column].count().reset_index()
+                
+                # Perform aggregation based on the user's selection for the y-axis
+                if aggregation_type_y == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
-                elif aggregation_type == "Sum":
+                elif aggregation_type_y == "Sum":
                     y_data = data.groupby(x_axis_column)[y_axis_column].sum().reset_index()
-                elif aggregation_type == "Median":
+                elif aggregation_type_y == "Median":
                     y_data = data.groupby(x_axis_column)[y_axis_column].median().reset_index()
-                elif aggregation_type == "Count":
+                elif aggregation_type_y == "Count":
                     y_data = data.groupby(x_axis_column)[y_axis_column].count().reset_index()
                 
                 # Sort the data by the x-axis column in ascending order
+                x_data = x_data.sort_values(by=[x_axis_column])
                 y_data = y_data.sort_values(by=[x_axis_column])
                 
                 # Create a line chart for the main line
                 fig = go.Figure()
-                fig.add_trace(go.Scatter(x=y_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type} {y_axis_column}"))
+                
+                # Add the time series line trace
+                fig.add_trace(go.Scatter(x=x_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type_y} {y_axis_column}"))
                 
                 # Specify axis labels and title
                 fig.update_layout(
                     xaxis_title=x_axis_column,
                     yaxis_title=y_axis_column,
-                    title=f"{aggregation_type} {y_axis_column} over {x_axis_column}"
+                    title=f"{aggregation_type_y} {y_axis_column} over {x_axis_column} ({aggregation_type_x} Aggregation for X)"
                 )
                 
                 # Show the chart
