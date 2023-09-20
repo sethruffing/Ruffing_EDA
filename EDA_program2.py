@@ -19,17 +19,12 @@ import streamlit as st
 
 st.session_state['answer'] = ''
 
-st.write(st.session_state)
-
 realans = ['', 'abc', 'edf']
 
 if  st.session_state['answer'] in realans:
     answerStat = "correct"
 elif st.session_state['answer'] not in realans:
     answerStat = "incorrect"
-
-st.write(st.session_state)
-st.write(answerStat)
 
 # function that makes interaction terms for regression table
 def create_and_append_interaction_terms(data, independent_vars, interaction_terms):
