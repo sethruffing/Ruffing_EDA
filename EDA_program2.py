@@ -145,7 +145,7 @@ def main():
           value = '')
 
         # Radio to toggle between different analysis types
-        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", "Regression Analysis", "Data Visualizations", "KMeans Clustering"))
+        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis",  "Data Visualizations", "Regression Analysis","KMeans Clustering"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
@@ -497,7 +497,8 @@ def main():
                 # Histogram-------------------------------------------------------------------------------------------------------------------------------------------------------------
                 st.subheader("Histogram")
                 selected_column = st.selectbox("Select a column for the histogram", data.columns)
-                fig = px.histogram(data, x=selected_column, nbins=20)
+                num_bins = st.number_input("Number of Bins", min_value=1, max_value=100, value=20, step=1)
+                fig = px.histogram(data, x=selected_column, nbins=num_bins)
                 st.plotly_chart(fig)
                 
                 st.divider()
