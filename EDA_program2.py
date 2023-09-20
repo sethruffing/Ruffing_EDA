@@ -428,11 +428,15 @@ def main():
                 mse_test = mean_squared_error(Y_test, Y_pred_test)
                 r_squared_train = r2_score(Y_train, Y_pred_train)
                 r_squared_test = r2_score(Y_test, Y_pred_test)
+                mse_percent_error = abs(((mse_test - mse_train)/mse_train)*100)
+                r_squared_percent_error = abs(((r_squared_test - r_squared_train)/r_squared_train)*100)
 
                 st.write("MSE Train: " + f"{mse_train:.4f}")
                 st.write("MSE Test: " + f"{mse_test:.4f}")
+                st.write("MSE Percent Difference: " + f"{mse_percent_error:.4f}"
                 st.write("R-squared Train: " + f"{r_squared_train:.4f}")
-                st.write("R-squared TTest: " + f"{r_squared_test:.4f}")
+                st.write("R-squared Test: " + f"{r_squared_test:.4f}")
+                st.write("R-squared Percent Difference: " + f"{r_squared_percent_error:.4f}"
             
             # Show the chart
             st.plotly_chart(fig)
