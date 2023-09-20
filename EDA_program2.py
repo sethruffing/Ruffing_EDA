@@ -433,7 +433,7 @@ def main():
 
                                 # Create a dictionary with placeholders for MSE and R-squared values
                 results = {
-                    "MSE": [mse_train, mse_test, , mse_percent_error],
+                    "MSE": [mse_train, mse_test, mse_percent_error],
                     "R-Squared": [r_squared_train, r_squared_test, r_squared_percent_error]
                 }
                 
