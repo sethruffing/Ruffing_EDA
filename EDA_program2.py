@@ -437,32 +437,41 @@ def main():
                 
                 # Identify the x-axis column
                 x_axis_column = identify_x_axis(data)
-
+                
                 # Allow the user to select the y-axis column for the main line
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
-
+                
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
                 aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum"], key="aggregation_select")
-
+                
                 # Perform aggregation based on the user's selection for the main line
                 if aggregation_type == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
                 elif aggregation_type == "Sum":
                     y_data = data.groupby(x_axis_column)[y_axis_column].sum().reset_index()
-
+                
                 # Sort the data by the x-axis column in ascending order
                 y_data = y_data.sort_values(by=[x_axis_column])
-
+                
                 # Create a line chart for the main line
                 fig = go.Figure()
+                
+                # Add the time series line trace
                 fig.add_trace(go.Scatter(x=y_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type} {y_axis_column}"))
-
+                
+                # Specify axis labels and title
+                fig.update_layout(
+                    xaxis_title=x_axis_column,
+                    yaxis_title=y_axis_column,
+                    title=f"{aggregation_type} {y_axis_column} over Time"
+                )
+                
                 # Specify that the x-axis is a date axis
                 fig.update_xaxes(type='date')
-
+                
                 # Show the chart
                 st.plotly_chart(fig)
-            
+                
             # Header for visualization page
             st.header("Data Visualizations")
             visualize_data(data)
