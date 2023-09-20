@@ -393,11 +393,11 @@ def main():
                         equation = f"Y = "
                         for i, coef in enumerate(coefficients):
                             if i == 0:
-                                equation += f"{coef:.2f}"
+                                equation += f"{coef:.4f}"
                             else:
-                                equation += f" + {coef:.2f}X^{i}"
+                                equation += f" + {coef:.4f}X^{i}"
                 
-                        equation += f" + {intercept:.2f}"
+                        equation += f" + {intercept:.4f}"
 
                         st.write(equation)
                         
