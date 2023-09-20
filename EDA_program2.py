@@ -14,7 +14,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import silhouette_score
-from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
 
 import streamlit as st
@@ -307,8 +307,12 @@ def main():
             st.header("Regression Analysis")
                             
             st.subheader("Scatter Plot and Regression Analysis")
-            x_column = st.selectbox("Select X-axis column", data.columns)
-            y_column = st.selectbox("Select Y-axis column", data.columns)
+            # Create two columns for checkboxes
+            col1, col2 = st.beta_columns(2)
+            with col1:
+                plot_regression = st.checkbox("Plot Regression Line")
+            with col2:
+                tts_box = st.checkbox("Train-Test Split")
             
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line"), st.checkbox("Train-Test Split")
@@ -396,6 +400,34 @@ def main():
                 yaxis_title=y_column,
                 title="Scatter Plot with Regression Line"
             )
+
+            if tts_box:
+                # Input for train-test split ratio
+                test_size = st.slider("Select Test Size Ratio", min_value=0.1, max_value=0.5, step=0.05, value=0.2)
+
+                # Perform train-test split
+                X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
+
+                # Calculate model accuracy metrics
+                if degree > 1:
+                    # For polynomial regression
+                    poly_features = PolynomialFeatures(degree=degree)
+                    X_train_poly = poly_features.fit_transform(X_train)
+                    X_test_poly = poly_features.transform(X_test)
+                    reg = LinearRegression().fit(X_train_poly, Y_train)
+                    Y_pred_train = reg.predict(X_train_poly)
+                    Y_pred_test = reg.predict(X_test_poly)
+                else:
+                    # For linear regression
+                    reg = LinearRegression().fit(X_train, Y_train)
+                    Y_pred_train = reg.predict(X_train)
+                    Y_pred_test = reg.predict(X_test)
+                
+                # Calculate MSE and R-squared for train and test sets
+                mse_train = mean_squared_error(Y_train, Y_pred_train)
+                mse_test = mean_squared_error(Y_test, Y_pred_test)
+                r_squared_train = r2_score(Y_train, Y_pred_train)
+                r_squared_test = r2_score(Y_test, Y_pred_test)
             
             # Show the chart
             st.plotly_chart(fig)
