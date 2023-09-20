@@ -404,7 +404,7 @@ def main():
 
             #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
             st.subheader("OLS Regression Table")
-            st.text("Below is a feature that can produce a multiple regression table, which includes one dependent variable, several independent variables, and optional interaction terms.")
+            st.text("Below is a feature that can produce a multiple regression table, \nwhich includes one dependent variable, several independent variables, \nand optional interaction terms.")
             
             dependent_var = st.selectbox("Select dependent variable", data.columns)
             independent_vars = st.multiselect("Select independent variables", data.columns)
