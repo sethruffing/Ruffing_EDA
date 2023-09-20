@@ -310,7 +310,7 @@ def main():
             
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line",key='prl')
-             tts_box = st.checkbox("Train-Test Split",key='tts')
+            tts_box = st.checkbox("Train-Test Split",key='tts')
             degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
             
             # Create a scatter plot using Plotly Graph Objects
