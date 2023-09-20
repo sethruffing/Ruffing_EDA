@@ -443,7 +443,7 @@ def main():
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to enter a "bucket" number (N)
-                bucket_number = st.number_input("Bucket Number:", 0.0, 100000000, 0.0, 0.01)
+                bucket_number = st.number_input("Bucket Number:", 0.0, 100000000.0, 0.0, 0.01)
                 
                 # Calculate the number of data points per bucket
                 num_data_points = len(data)
