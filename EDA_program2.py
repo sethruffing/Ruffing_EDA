@@ -389,8 +389,6 @@ def main():
                     # Customize the regression line trace
                     fig.update_traces(line_color='red', line_width=3)
 
-                # Display the plot using Streamlit
-                st.plotly_chart(fig)
 
                 st.divider()
                 
