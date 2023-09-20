@@ -306,6 +306,7 @@ def main():
         elif analysis_type == "Regression Analysis":
             st.header("Regression Analysis")        
             st.subheader("Scatter Plot and Regression Analysis")
+            st.text("Select 2 columns from your data to run a regression. The check boxes below give you options to \nobserve regressions of different degrees and test out the accuracy of the\nmodel doing a train-test split")
 
             # Plotting X and Y columns
             x_column = st.selectbox("Select X-column variable", data.columns,key='sfodkn')
