@@ -306,7 +306,7 @@ def main():
         elif analysis_type == "Regression Analysis":
             st.header("Regression Analysis")
                             
-            st.subheader("Scatter Plot")
+            st.subheader("Scatter Plot and Regression Analysis")
             x_column = st.selectbox("Select X-axis column", data.columns)
             y_column = st.selectbox("Select Y-axis column", data.columns)
             
@@ -399,6 +399,13 @@ def main():
             
             # Show the chart
             st.plotly_chart(fig)
+
+            st.divider()
+
+            #----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            st.subheader("OLS Regression Table")
+            st.text("Below is a feature that can produce a multiple regression table, which includes one dependent variable, several independent variables, and optional interaction terms.")
+            
             dependent_var = st.selectbox("Select dependent variable", data.columns)
             independent_vars = st.multiselect("Select independent variables", data.columns)
 
@@ -450,10 +457,6 @@ def main():
                 st.subheader("Scatter Plot")
                 x_column = st.selectbox("Select X-axis column", data.columns)
                 y_column = st.selectbox("Select Y-axis column", data.columns)
-                
-                # Checkbox to enable regression line
-                plot_regression = st.checkbox("Plot Regression Line")
-                degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
                 
                 # Create a scatter plot using Plotly Graph Objects
                 fig = go.Figure()
