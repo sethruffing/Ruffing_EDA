@@ -515,11 +515,16 @@ def main():
                     x=data[x_column],
                     y=data[y_column],
                     mode='markers',
-                    opacity=0.6,
                     name="Scatter Plot"
                 )
                 
                 fig.add_trace(scatter_trace)
+
+                fig.update_layout(
+                    xaxis_title=x_column,    # X-axis title
+                    yaxis_title=y_column,    # Y-axis title
+                    title= f"Scatter of {x_column} and {y_column}"     # Plot title
+                )
 
                 st.plotly_chart(fig)
                     
