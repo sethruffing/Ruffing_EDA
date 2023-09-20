@@ -467,6 +467,8 @@ def main():
                 )
                 
                 fig.add_trace(scatter_trace)
+
+                st.plotly_chart(fig)
                     
                 st.divider()
                 
