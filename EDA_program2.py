@@ -335,6 +335,9 @@ def main():
                     st.text("There is an error with your regression.\nNote that you cannot regress on categorical variables, string variables, and \nmissing values")
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         elif analysis_type == "Data Visualizations":
+
+            # Header for visualization page
+            st.header("Data Visualizations")
             
             # Function used to call histograms and scatter plots
             def visualize_data(data):
@@ -470,6 +473,8 @@ def main():
                 
                 # Show the chart
                 st.plotly_chart(fig)
+                
+            visualize_data(data)
 
         if analysis_type == "ML Models":
             # Header for clustering options
