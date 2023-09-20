@@ -381,11 +381,11 @@ def main():
                     regression_data = pd.DataFrame({x_column: X_plot.flatten(), y_column: Y_plot})
 
                     # Create a scatter plot using Plotly Express
-                    fig = px.line(regression_data, x=x_column, y=y_column).data[0])
+                    fig = px.line(regression_data, x=x_column, y=y_column).data[0]
                     fig = px.scatter(data, x=x_column, y=y_column, opacity=0.6)
                     
                     # Add the regression line trace next (on top)
-                    fig.add_trace(px.scatter(data, x=x_column, y=y_column, opacity=0.6)
+                    fig.add_trace(px.scatter(data, x=x_column, y=y_column, opacity=0.6))
 
                     # Customize the regression line trace
                     fig.update_traces(line_color='red', line_width=3)
