@@ -443,7 +443,7 @@ def main():
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to enter a "bucket" number (N)
-                bucket_number = st.number_input("Bucket Number:", 1, 100000000, 0, 1)
+                bucket_number = st.slider("Enter the Bucket Number (N) for X-axis", min_value=1, max_value=len(data), value=1, key="bucket_number")
                 
                 # Calculate the number of data points per bucket
                 num_data_points = len(data)
