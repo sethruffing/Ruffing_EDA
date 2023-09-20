@@ -434,13 +434,13 @@ def main():
 
                 # Time Series-----------------------------------------------------------------------------------------------------------------------------------------------------------
                 st.subheader("Line Charts")
-                
+
                 # Selecting columns for x and y variables
                 x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
-                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum", "Median","Count"], key="aggregation_select")
+                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum", "Median", "Count"], key="aggregation_select")
                 
                 # Perform aggregation based on the user's selection for the main line
                 if aggregation_type == "Mean":
@@ -465,15 +465,11 @@ def main():
                 fig.update_layout(
                     xaxis_title=x_axis_column,
                     yaxis_title=y_axis_column,
-                    title=f"{aggregation_type} {y_axis_column} over Time"
+                    title=f"{aggregation_type} {y_axis_column} over {x_axis_column}"
                 )
                 
                 # Show the chart
                 st.plotly_chart(fig)
-                
-            # Header for visualization page
-            st.header("Data Visualizations")
-            visualize_data(data)
 
         if analysis_type == "ML Models":
             # Header for clustering options
