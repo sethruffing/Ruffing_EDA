@@ -385,7 +385,6 @@ def main():
 
                     # Create a scatter plot using Plotly Express
                     fig = px.line(regression_data, x=x_column, y=y_column).data[0]
-                    fig = px.scatter(data, x=x_column, y=y_column, opacity=0.6)
                     
                     # Add the regression line trace next (on top)
                     fig.add_trace(px.scatter(data, x=x_column, y=y_column, opacity=0.6))
