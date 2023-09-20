@@ -442,21 +442,21 @@ def main():
                 x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
-                # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
-                aggregation_type_x = st.selectbox("Select Aggregation Type for X-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_x")
-                aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
+                # Allow the user to enter a "bucket" number (N)
+                bucket_number = st.number_input("Bucket Number:", 0.0, 100000000, 0.0, 0.01)
                 
-                # Perform aggregation based on the user's selection for the main line
-                if aggregation_type_x == "Mean":
-                    x_data = data.groupby(x_axis_column)[x_axis_column].mean().reset_index()
-                elif aggregation_type_x == "Sum":
-                    x_data = data.groupby(x_axis_column)[x_axis_column].sum().reset_index()
-                elif aggregation_type_x == "Median":
-                    x_data = data.groupby(x_axis_column)[x_axis_column].median().reset_index()
-                elif aggregation_type_x == "Count":
-                    x_data = data.groupby(x_axis_column)[x_axis_column].count().reset_index()
+                # Calculate the number of data points per bucket
+                num_data_points = len(data)
+                num_buckets = num_data_points // bucket_number
+                
+                # Create a DataFrame with aggregated data for the x-axis
+                x_data = pd.DataFrame()
+                x_data['Bucket'] = [i for i in range(num_buckets)]
+                x_data[x_axis_column] = [data.iloc[i:i + bucket_number][x_axis_column].mean() for i in range(0, num_data_points, bucket_number)]
                 
                 # Perform aggregation based on the user's selection for the y-axis
+                aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
+                
                 if aggregation_type_y == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
                 elif aggregation_type_y == "Sum":
@@ -478,9 +478,9 @@ def main():
                 
                 # Specify axis labels and title
                 fig.update_layout(
-                    xaxis_title=x_axis_column,
+                    xaxis_title=f"{x_axis_column} (Bucketed)",
                     yaxis_title=y_axis_column,
-                    title=f"{aggregation_type_y} {y_axis_column} over {x_axis_column} ({aggregation_type_x} Aggregation for X)"
+                    title=f"{aggregation_type_y} {y_axis_column} over {x_axis_column} (Bucketed by {bucket_number})"
                 )
                 
                 # Show the chart
