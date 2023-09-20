@@ -443,11 +443,13 @@ def main():
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
-                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum", "Median", "Count"], key="aggregation_select")
+                aggregation_type_x = st.selectbox("Select Aggregation Type for X-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_x")
+                aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
                 
                 # Perform aggregation based on the user's selection for the main line
                 if aggregation_type == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
+                    x_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
                 elif aggregation_type == "Sum":
                     y_data = data.groupby(x_axis_column)[y_axis_column].sum().reset_index()
                 elif aggregation_type == "Median":
