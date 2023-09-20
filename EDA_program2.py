@@ -428,6 +428,11 @@ def main():
                 mse_test = mean_squared_error(Y_test, Y_pred_test)
                 r_squared_train = r2_score(Y_train, Y_pred_train)
                 r_squared_test = r2_score(Y_test, Y_pred_test)
+
+                st.write("MSE Train: " + f"{mse_train:.4f}")
+                st.write("MSE Test: " + f"{mse_test:.4f}")
+                st.write("R-squared Train: " + f"{r_squared_train:.4f}")
+                st.write("R-squared TTest: " + f"{r_squared_test:.4f}")
             
             # Show the chart
             st.plotly_chart(fig)
