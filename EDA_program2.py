@@ -360,8 +360,18 @@ def main():
                 plot_regression = st.checkbox("Plot Regression Line")
                 degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
                 
-                # Create a scatter plot using Plotly Express
-                fig = px.scatter(data, x=x_column, y=y_column, opacity=0.6)
+                # Create a scatter plot using Plotly Graph Objects
+                fig = go.Figure()
+                
+                scatter_trace = go.Scatter(
+                    x=data[x_column],
+                    y=data[y_column],
+                    mode='markers',
+                    opacity=0.6,
+                    name="Scatter Plot"
+                )
+                
+                fig.add_trace(scatter_trace)
                 
                 # Perform regression and plot the regression line if enabled
                 if plot_regression:
@@ -380,14 +390,22 @@ def main():
                         X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
                         Y_plot = reg.predict(X_plot)
                 
-                    # Create a DataFrame for the regression line data
-                    regression_data = pd.DataFrame({x_column: X_plot.flatten(), y_column: Y_plot})
+                    # Add the regression line as a trace to the figure
+                    regression_trace = go.Scatter(
+                        x=X_plot.flatten(),
+                        y=Y_plot,
+                        mode='lines',
+                        name="Regression Line"
+                    )
                 
-                    # Create a scatter plot using Plotly Express for the regression line data
-                    regression_line = px.line(regression_data, x=x_column, y=y_column)
+                    fig.add_trace(regression_trace)
                 
-                    # Add the regression line trace next (on top) to the scatter plot
-                    fig.add_trace(go.Scatter(x=regression_line.data[0]['x'], y=regression_line.data[0]['y'], mode='lines', name="Regression Line"))
+                # Update layout to include labels
+                fig.update_layout(
+                    xaxis_title=x_column,
+                    yaxis_title=y_column,
+                    title="Scatter Plot with Regression Line"
+                )
                 
                 # Show the chart
                 st.plotly_chart(fig)
