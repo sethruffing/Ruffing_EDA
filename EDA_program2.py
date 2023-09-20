@@ -436,56 +436,41 @@ def main():
                 st.divider()
 
                 # Time Series-----------------------------------------------------------------------------------------------------------------------------------------------------------
-                st.subheader("Line Charts")
+                st.subheader("Time Series Analysis (if applicable)")
                 
-                # Selecting columns for x and y variables
-                x_axis_column = st.selectbox("Select X-axis column", data.columns, key="x_axis_select")
+                # Identify the x-axis column
+                x_axis_column = identify_x_axis(data)
+                
+                # Allow the user to select the y-axis column for the main line
                 y_axis_column = st.selectbox("Select Y-axis column", data.columns, key="y_axis_select")
                 
-                # Calculate the minimum and maximum values of the selected X-axis column
-                min_x = data[x_axis_column].min()
-                max_x = data[x_axis_column].max()
+                # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
+                aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum"], key="aggregation_select")
                 
-                # Allow the user to enter a "bucket" number (N) within the range of min_x to max_x
-                bucket_number = st.slider("Enter the Bucket Number (N) for X-axis", min_value=min_x, max_value=max_x, value=min_x, key="bucket_number")
-                
-                # Calculate the number of data points per bucket
-                num_data_points = len(data)
-                num_buckets = num_data_points // int(bucket_number)
-                
-                # Create a DataFrame with aggregated data for the x-axis
-                x_data = pd.DataFrame()
-                x_data['Bucket'] = [i for i in range(num_buckets)]
-                x_data[x_axis_column] = [data.iloc[i:i + num_buckets][x_axis_column].mean() for i in range(0, num_data_points, num_buckets)]
-                
-                # Perform aggregation based on the user's selection for the y-axis
-                aggregation_type_y = st.selectbox("Select Aggregation Type for Y-Column", ["Mean", "Sum", "Median", "Count"], key="aggregation_select_y")
-                
-                if aggregation_type_y == "Mean":
+                # Perform aggregation based on the user's selection for the main line
+                if aggregation_type == "Mean":
                     y_data = data.groupby(x_axis_column)[y_axis_column].mean().reset_index()
-                elif aggregation_type_y == "Sum":
+                elif aggregation_type == "Sum":
                     y_data = data.groupby(x_axis_column)[y_axis_column].sum().reset_index()
-                elif aggregation_type_y == "Median":
-                    y_data = data.groupby(x_axis_column)[y_axis_column].median().reset_index()
-                elif aggregation_type_y == "Count":
-                    y_data = data.groupby(x_axis_column)[y_axis_column].count().reset_index()
                 
                 # Sort the data by the x-axis column in ascending order
-                x_data = x_data.sort_values(by=[x_axis_column])
                 y_data = y_data.sort_values(by=[x_axis_column])
                 
                 # Create a line chart for the main line
                 fig = go.Figure()
                 
                 # Add the time series line trace
-                fig.add_trace(go.Scatter(x=x_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type_y} {y_axis_column}"))
+                fig.add_trace(go.Scatter(x=y_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type} {y_axis_column}"))
                 
                 # Specify axis labels and title
                 fig.update_layout(
-                    xaxis_title=f"{x_axis_column} (Bucketed)",
+                    xaxis_title=x_axis_column,
                     yaxis_title=y_axis_column,
-                    title=f"{aggregation_type_y} {y_axis_column} over {x_axis_column} (Bucketed by {bucket_number})"
+                    title=f"{aggregation_type} {y_axis_column} over Time"
                 )
+                
+                # Specify that the x-axis is a date axis
+                fig.update_xaxes(type='date')
                 
                 # Show the chart
                 st.plotly_chart(fig)
