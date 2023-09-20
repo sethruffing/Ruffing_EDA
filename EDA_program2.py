@@ -388,6 +388,8 @@ def main():
                         # Get the coefficients for the polynomial equation
                         coefficients = reg.coef_
                         intercept = reg.intercept_
+                        p_values = reg.pvalues
+                        
                 
                         # Build the polynomial equation as a string dynamically
                         equation = f"Y = "
@@ -398,8 +400,13 @@ def main():
                                 equation += f" + {coef:.4f}X^{i}"
                 
                         equation += f" + {intercept:.4f}"
+                        
+                        # Calculate R-squared
+                        Y_pred = reg.predict(X_poly)
+                        r_squared = r2_score(Y, Y_pred)
 
-                        st.write(equation)
+                        st.write("Equation: " + equation)
+                        st.write("R-squared: " + r_squared)
                         
                     else:
                         reg = LinearRegression().fit(X, Y)
@@ -408,9 +415,15 @@ def main():
 
                         # Calculate the regression equation
                         slope, intercept, r_value, p_value, std_err = stats.linregress(data[x_column], data[y_column])
-                        equation = f"Y = {slope:.2f}X + {intercept:.2f}, R-squared = {r_value**2:.2f}"
+                        equation = f"Y = {slope:.2f}X + {intercept:.2f}"
+                        R_squared = {r_value**2:.2f}
+                        P_value = {p_value:.2f}
+                        
 
-                        st.write(equation)
+                        st.write("Equation: " + equation)
+                        st.write("R-squared: " + R_squared)
+                        st.write("P-value: " + P_value)
+                        
                 
                     # Add the regression line as a trace to the figure
                     regression_trace = go.Scatter(
