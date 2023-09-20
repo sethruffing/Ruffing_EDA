@@ -14,6 +14,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import silhouette_score
+from sklearn.metrics import r2_score
 import statsmodels.api as sm
 
 import streamlit as st
