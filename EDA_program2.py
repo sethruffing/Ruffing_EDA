@@ -404,8 +404,8 @@ def main():
                 test_size = st.slider("Select Test Size Ratio", min_value=0.1, max_value=0.5, step=0.05, value=0.2)
 
                 # Perform train-test split
-                X = x_column
-                Y = y_column
+                X = data[x_column].values.reshape(-1, 1)
+                Y = data[y_column].values
                 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
 
                 # Calculate model accuracy metrics
