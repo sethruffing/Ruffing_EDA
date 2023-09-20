@@ -395,7 +395,8 @@ def main():
                         x=X_plot.flatten(),
                         y=Y_plot,
                         mode='lines',
-                        name="Regression Line"
+                        name="Regression Line",
+                        line=dict(color='red')
                     )
                 
                     fig.add_trace(regression_trace)
