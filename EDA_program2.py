@@ -406,7 +406,7 @@ def main():
                         r_squared = r2_score(Y, Y_pred)
 
                         st.write("Equation: " + equation)
-                        st.write("R-squared: " + f"{r_squared:.2f}")
+                        st.write("R-squared: " + f"{r_squared:.4f}")
                         
                     else:
                         reg = LinearRegression().fit(X, Y)
@@ -416,8 +416,8 @@ def main():
                         # Calculate the regression equation
                         slope, intercept, r_value, p_value, std_err = stats.linregress(data[x_column], data[y_column])
                         equation = f"Y = {slope:.2f}X + {intercept:.2f}"
-                        R_squared = f"{r_value**2:.2f}"
-                        P_value = f"{p_value:.2f}"
+                        R_squared = f"{r_value**2:.4f}"
+                        P_value = f"{p_value:.4f}"
                         
 
                         st.write("Equation: " + equation)
