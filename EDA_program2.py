@@ -360,6 +360,9 @@ def main():
                 plot_regression = st.checkbox("Plot Regression Line")
                 degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
 
+                # Create a scatter plot using Plotly Express
+                fig = px.scatter(data, x=x_column, y=y_column, opacity=0.6)
+
                 # Perform regression and plot the regression line if enabled
                 if plot_regression:
                     X = data[x_column].values.reshape(-1, 1)
@@ -389,13 +392,6 @@ def main():
 
                     # Customize the regression line trace
                     fig.update_traces(line_color='red', line_width=3)
-
-                    # Show the chart
-                    st.plotly_chart(fig)
-
-                else:
-                    # Create a scatter plot using Plotly Express
-                    fig = px.scatter(data, x=x_column, y=y_column, opacity=0.6)
 
                     # Show the chart
                     st.plotly_chart(fig)
