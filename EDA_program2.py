@@ -145,7 +145,7 @@ def main():
           value = '')
 
         # Radio to toggle between different analysis types
-        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", "Regression Analysis", "Data Visualizations", "ML Models"))
+        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", "Regression Analysis", "Data Visualizations", "KMeans Clustering"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
@@ -304,7 +304,101 @@ def main():
 
     #---------------------------------------------------Regression Analysis Section-------------------------------------------------------------------
         elif analysis_type == "Regression Analysis":
-            st.subheader("Regression Analysis")
+            st.header("Regression Analysis")
+                            
+            st.subheader("Scatter Plot")
+            x_column = st.selectbox("Select X-axis column", data.columns)
+            y_column = st.selectbox("Select Y-axis column", data.columns)
+            
+            # Checkbox to enable regression line
+            plot_regression = st.checkbox("Plot Regression Line")
+            degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
+            
+            # Create a scatter plot using Plotly Graph Objects
+            fig = go.Figure()
+            
+            scatter_trace = go.Scatter(
+                x=data[x_column],
+                y=data[y_column],
+                mode='markers',
+                opacity=0.6,
+                name="Scatter Plot"
+            )
+            
+            fig.add_trace(scatter_trace)
+            
+            # Perform regression and plot the regression line if enabled
+            if plot_regression:
+                X = data[x_column].values.reshape(-1, 1)
+                Y = data[y_column].values
+            
+                if degree > 1:
+                    poly_features = PolynomialFeatures(degree=degree)
+                    X_poly = poly_features.fit_transform(X)
+                    reg = LinearRegression().fit(X_poly, Y)
+                    X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+                    X_plot_poly = poly_features.transform(X_plot)
+                    Y_plot = reg.predict(X_plot_poly)
+
+                    # Get the coefficients for the polynomial equation
+                    coefficients = reg.coef_
+                    intercept = reg.intercept_
+                    
+            
+                    # Build the polynomial equation as a string dynamically
+                    equation = f"Y = "
+                    for i, coef in enumerate(coefficients):
+                        if i == 0:
+                            equation += f"{coef:.4f}"
+                        else:
+                            equation += f" + {coef:.4f}X^{i}"
+            
+                    equation += f" + {intercept:.4f}"
+                    
+                    # Calculate R-squared
+                    Y_pred = reg.predict(X_poly)
+                    r_squared = r2_score(Y, Y_pred)
+
+                    st.write("Equation: " + equation)
+                    st.write("R-squared: " + f"{r_squared:.4f}")
+                    
+                else:
+                    reg = LinearRegression().fit(X, Y)
+                    X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
+                    Y_plot = reg.predict(X_plot)
+
+                    # Calculate the regression equation
+                    slope, intercept, r_value, p_value, std_err = stats.linregress(x=data[x_column], y=data[y_column])
+                    equation = f"Y = {slope:.2f}X + {intercept:.2f}"
+                    R_squared = f"{r_value**2:.4f}"
+                    P_value = f"{p_value:.4f}"
+                    
+
+                    st.write("Equation: " + equation)
+                    st.write("R-squared: " + R_squared)
+                    st.write("P-value: " + P_value)
+                    
+            
+                # Add the regression line as a trace to the figure
+                regression_trace = go.Scatter(
+                    x=X_plot.flatten(),
+                    y=Y_plot,
+                    mode='lines',
+                    name="Regression Line",
+                    line=dict(color='red')
+                )
+            
+                fig.add_trace(regression_trace)
+            
+            # Update layout to include labels
+            fig.update_layout(
+                xaxis_title=x_column,
+                yaxis_title=y_column,
+                title="Scatter Plot with Regression Line"
+            )
+            
+            # Show the chart
+            st.plotly_chart(fig)
             dependent_var = st.selectbox("Select dependent variable", data.columns)
             independent_vars = st.multiselect("Select independent variables", data.columns)
 
@@ -352,6 +446,7 @@ def main():
                 
                 st.divider()
                 # Scatter Plot----------------------------------------------------------------------------------------------------------------------------------------------------------
+                
                 st.subheader("Scatter Plot")
                 x_column = st.selectbox("Select X-axis column", data.columns)
                 y_column = st.selectbox("Select Y-axis column", data.columns)
@@ -372,79 +467,6 @@ def main():
                 )
                 
                 fig.add_trace(scatter_trace)
-                
-                # Perform regression and plot the regression line if enabled
-                if plot_regression:
-                    X = data[x_column].values.reshape(-1, 1)
-                    Y = data[y_column].values
-                
-                    if degree > 1:
-                        poly_features = PolynomialFeatures(degree=degree)
-                        X_poly = poly_features.fit_transform(X)
-                        reg = LinearRegression().fit(X_poly, Y)
-                        X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
-                        X_plot_poly = poly_features.transform(X_plot)
-                        Y_plot = reg.predict(X_plot_poly)
-
-                        # Get the coefficients for the polynomial equation
-                        coefficients = reg.coef_
-                        intercept = reg.intercept_
-                        
-                
-                        # Build the polynomial equation as a string dynamically
-                        equation = f"Y = "
-                        for i, coef in enumerate(coefficients):
-                            if i == 0:
-                                equation += f"{coef:.4f}"
-                            else:
-                                equation += f" + {coef:.4f}X^{i}"
-                
-                        equation += f" + {intercept:.4f}"
-                        
-                        # Calculate R-squared
-                        Y_pred = reg.predict(X_poly)
-                        r_squared = r2_score(Y, Y_pred)
-
-                        st.write("Equation: " + equation)
-                        st.write("R-squared: " + f"{r_squared:.4f}")
-                        
-                    else:
-                        reg = LinearRegression().fit(X, Y)
-                        X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
-                        Y_plot = reg.predict(X_plot)
-
-                        # Calculate the regression equation
-                        slope, intercept, r_value, p_value, std_err = stats.linregress(x=data[x_column], y=data[y_column])
-                        equation = f"Y = {slope:.2f}X + {intercept:.2f}"
-                        R_squared = f"{r_value**2:.4f}"
-                        P_value = f"{p_value:.4f}"
-                        
-
-                        st.write("Equation: " + equation)
-                        st.write("R-squared: " + R_squared)
-                        st.write("P-value: " + P_value)
-                        
-                
-                    # Add the regression line as a trace to the figure
-                    regression_trace = go.Scatter(
-                        x=X_plot.flatten(),
-                        y=Y_plot,
-                        mode='lines',
-                        name="Regression Line",
-                        line=dict(color='red')
-                    )
-                
-                    fig.add_trace(regression_trace)
-                
-                # Update layout to include labels
-                fig.update_layout(
-                    xaxis_title=x_column,
-                    yaxis_title=y_column,
-                    title="Scatter Plot with Regression Line"
-                )
-                
-                # Show the chart
-                st.plotly_chart(fig)
                     
                 st.divider()
                 
@@ -514,7 +536,7 @@ def main():
                 
             visualize_data(data)
 
-        if analysis_type == "ML Models":
+        if analysis_type == "KMeans Clustering":
             # Header for clustering options
             st.subheader("K-means Clustering Options")
 
