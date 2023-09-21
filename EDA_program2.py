@@ -145,7 +145,7 @@ def main():
           value = '')
 
         # Radio to toggle between different analysis types
-        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis",  "Data Visualizations", "Regression Analysis","KMeans Clustering"))
+        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis",  "Data Visualizations", "Regression Modeling","KMeans Clustering"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
@@ -303,7 +303,7 @@ def main():
             st.table(pd.DataFrame(correlation_data))
 
     #---------------------------------------------------Regression Analysis Section-------------------------------------------------------------------
-        elif analysis_type == "Regression Analysis":
+        elif analysis_type == "Regression Modeling":
             st.header("Regression Analysis")        
             st.subheader("Scatter Plot and Regression Analysis")
             st.text("Select 2 columns from your data to run a regression. The check boxes below give you options to \nobserve regressions of different degrees and test out the accuracy of the\nmodel doing a train-test split")
