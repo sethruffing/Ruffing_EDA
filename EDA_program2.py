@@ -125,7 +125,7 @@ def calculate_silhouette_score(data_for_clustering, kmeans):
 def main():
     # Main Title and descriptions
     st.title("Quick Analysis")
-    st.text("Upload a CSV to get started. The functions performed by this app is highly quantitative so, heavily qualitative datasets might not be supported")
+    st.text("Upload a CSV to get started. The functions performed by this app is highly \nquantitative so, heavily qualitative datasets might not be supported")
 
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
@@ -652,7 +652,8 @@ def main():
     else:
         st.subheader("About the app")
         st.write("This app was created by Seth Ruffing (TAMU Co'23) in order to perform exploratory analysis on CSV files. Current analyses include bivariate analyses, data visualizations, in-depth regression model building, and KMeans clustering")
-
+        st.write("I made this app because I often performed EDA on new datasets to find variables that had sometimes of relationship, and I thought I could speed up the process by having a prewritten algorithm that finds bivariate relationships with my input parameters.")
+        st.write("From there, more and more features were added to incrementally increase the usability of this app. I also had been wanting to learn how to apply ML model into my work so I use this app as the opportunity")
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
