@@ -124,8 +124,8 @@ def calculate_silhouette_score(data_for_clustering, kmeans):
 
 def main():
     # Main Title and descriptions
-    st.title("Exploratory Analysis")
-    st.text("For new, raw datasets. Current analyses include summary and correlative \nstatistics, regression analysis, and some visualizations")
+    st.title("Quick Analysis")
+    st.text("Upload a CSV to get started. The functions performed by this app is highly quantitative so, heavily qualitative datasets might not be supported")
 
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
@@ -649,6 +649,9 @@ def main():
                     silhouette_avg = silhouette_score(data_for_clustering, kmeans.labels_)
                     st.subheader("Silhouette Score")
                     st.write(silhouette_avg)
+    else:
+        st.subheader("About the app")
+        st.write("This app was created by Seth Ruffing (TAMU Co'23) in order to perform exploratory analysis on CSV files. Current analyses include bivariate analyses, data visualizations, in-depth regression model building, and KMeans clustering")
 
 
 
