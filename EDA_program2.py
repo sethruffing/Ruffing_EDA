@@ -626,7 +626,45 @@ def main():
                 if len(selected_features) < 2:
                     st.warning("Please select at least two features for clustering.")
                 elif testing_column == "":
-                    st.warning("Please select a testing column.")
+                                        # Prepare the data for clustering
+                    data_for_clustering = data[selected_features]
+        
+                    # Perform K-means clustering
+                    kmeans = KMeans(n_clusters=num_clusters, random_state=0)
+                    data['Cluster'] = kmeans.fit_predict(data_for_clustering)
+        
+                    # Visualize the clusters using a scatter plot with Plotly
+                    fig = px.scatter(data, x=selected_features[0], y=selected_features[1], color='Cluster',
+                                    title="K-means Clustering")
+                    st.plotly_chart(fig)
+        
+                    st.text("Remember that this only plots the first two dimensions, but the \namount of dimensions depends on the amount of features listed")
+        
+                    # Display clustering results
+                    st.subheader("Clustering Results")
+                    st.write(data[['Cluster'] + selected_features])
+        
+                    # Show cluster statistics
+                    cluster_counts = data['Cluster'].value_counts().reset_index()
+                    cluster_counts.columns = ['Cluster', 'Count']
+                    st.subheader("Cluster Counts")
+                    st.write(cluster_counts)
+        
+                    # Display centroids
+                    centroids = pd.DataFrame(kmeans.cluster_centers_, columns=selected_features)
+                    st.subheader("Cluster Centroids")
+                    st.write(centroids)
+        
+                    # Calculate and display inertia (within-cluster sum of squares)
+                    inertia = kmeans.inertia_
+                    st.subheader("Inertia (Within-Cluster Sum of Squares)")
+                    st.write(inertia)
+        
+                    # Calculate and display silhouette score
+                    silhouette_avg = silhouette_score(data_for_clustering, kmeans.labels_)
+                    st.subheader("Silhouette Score")
+                    st.write(silhouette_avg)
+                    
                 else:
                     # Prepare the data for clustering
                     data_for_clustering = data[selected_features]
@@ -672,7 +710,7 @@ def main():
         
                     # Display clustering evaluation
                     st.subheader("Clustering Evaluation")
-                    st.write(f"Clustering Accuracy (w.r.t. {testing_column}): {clustering_accuracy:.2f}")
+                    st.text(f"Clustering Accuracy (w.r.t. {testing_column}): {clustering_accuracy:.2f}")
     else:
         st.subheader("About the app")
         st.write("This app was created by Seth Ruffing (TAMU Co'23) in order to perform exploratory analysis on CSV files. Current analyses include bivariate analyses, data visualizations, in-depth regression model building, and KMeans clustering")
