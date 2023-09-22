@@ -122,6 +122,18 @@ def perform_clustering(data_for_clustering, num_clusters):
 def calculate_silhouette_score(data_for_clustering, kmeans):
     return silhouette_score(data_for_clustering, kmeans.labels_)
 
+def custom_accuracy_score(data, testing_column, cluster_column):
+    # Ensure both columns exist in the DataFrame
+    if testing_column not in data.columns or cluster_column not in data.columns:
+        raise ValueError("Both testing_column and cluster_column must be present in the DataFrame.")
+
+    # Calculate the percentage of matching values
+    matching_count = (data[testing_column] == data[cluster_column]).sum()
+    total_count = len(data)
+    accuracy = (matching_count / total_count)
+
+    return accuracy
+
 def main():
     # Main Title and descriptions
     st.title("Quick Analysis")
