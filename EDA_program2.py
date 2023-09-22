@@ -636,7 +636,7 @@ def main():
                     data['Cluster'] = kmeans.fit_predict(data_for_clustering)
         
                     # Evaluate clustering
-                    clustering_accuracy = accuracy_score(data[testing_column], data['Cluster'])
+                    clustering_accuracy = custom_accuracy_score(data, data[testing_column], data['Cluster'])
         
                     # Visualize the clusters using a scatter plot with Plotly
                     fig = px.scatter(data, x=selected_features[0], y=selected_features[1], color='Cluster',
