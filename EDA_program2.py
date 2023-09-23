@@ -327,7 +327,6 @@ def main():
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line",key='prl')
             tts_box = st.checkbox("Train-Test Split",key='tts')
-            qq_plot = st.checkbox("QQ-Plot",key="qqplot")
             degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
             
             # Create a scatter plot using Plotly Graph Objects
@@ -458,22 +457,6 @@ def main():
                 results_df = pd.DataFrame(results, index=index)
 
                 st.table(results_df)
-            if qq_plot:
-                # Calculate residuals
-                residuals = Y - Y_pred_train  # Assuming you're using the training set
-            
-                # Create a QQ plot
-                fig_qq = sm.qqplot(residuals, line='s')  # 's' for standardized line
-            
-                # Update layout for the QQ plot
-                fig_qq.update_layout(
-                    title="QQ Plot of Residuals",
-                    xaxis_title="Theoretical Quantiles",
-                    yaxis_title="Sample Quantiles"
-                )
-            
-                # Display the QQ plot
-                st.plotly_chart(fig_qq)
             
             # Show the chart
             st.plotly_chart(fig)
