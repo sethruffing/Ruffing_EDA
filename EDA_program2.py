@@ -158,7 +158,7 @@ def main():
         # check box for ratio columns
         ratios = st.sidebar.checkbox("Include Ratios for Column Combos")
         if ratios:
-            columns = data.columns
+            columns = df.select_dtypes(include=[np.number]).columns
             combinations_list = list(combinations(columns, 2))
             for col1, col2 in combinations_list:
                 ratio_calculator(data, col1, col2)
