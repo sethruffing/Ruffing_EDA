@@ -8,6 +8,7 @@ import plotly.express as px
 import plotly.subplots as sp
 import plotly.graph_objects as go
 import plotly.io as pio
+import plotly.figure_factory as ff
 import io
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
