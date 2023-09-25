@@ -237,8 +237,7 @@ def main():
             filter_value_3 = st.sidebar.selectbox(f"Select a filter option for '{selected_column_3}'", numerical_filter_options_3, key='sb9')
 
         # Apply All Filters
-        active_filters = st.sidebar.checkbox("Active Filters")
-        if st.sidebar.checkbox("Apply Filters", key='b0'):
+        if st.sidebar.checkbox("Active Filters", key='b0'):
             # Filter the data using the filter_data function if a filter value is provided
             data = filter_data(data, selected_column_1, filter_option_1, filter_value_1)
             data = filter_data(data, selected_column_2, filter_option_2, filter_value_2)
