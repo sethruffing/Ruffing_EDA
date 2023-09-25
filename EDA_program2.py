@@ -149,17 +149,19 @@ def main():
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
 
-        # Adding ratio analysis 
-        columns = data.columns
-        combinations_list = list(combinations(columns, 2))
-        for col1, col2 in combinations_list:
-            ratio_calculator(data, col1, col2)
-
         # Checkbox for dropping NaN values
-        st.sidebar.title("Remove rows with missing values")
+        st.sidebar.title("Options")
         drop_nan = st.sidebar.checkbox("Drop Nan Values")
         if drop_nan:
             data = data.dropna()
+
+        # check box for ratio columns
+        ratios = st.sidebar.checkbox("Include Ratios for Column Combos")
+        if ratios:
+            columns = data.columns
+            combinations_list = list(combinations(columns, 2))
+            for col1, col2 in combinations_list:
+                ratio_calculator(data, col1, col2)
         st.sidebar.divider()
 
         # Inseting None Column
