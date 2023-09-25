@@ -16,6 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import silhouette_score
 from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
+from itertools import combinations
 
 import streamlit as st
 
@@ -134,6 +135,10 @@ def custom_accuracy_score(data, testing_column, cluster_column):
 
     return accuracy
 
+def ratio_calculator(df, col1, col2):
+    col_name = f'{col1}/{col2}'
+    df[col_name] = df[col1]/df[col2]
+
 def main():
     # Main Title and descriptions
     st.title("Quick Analysis")
@@ -143,6 +148,12 @@ def main():
 
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
+
+        # Adding ratio analysis 
+        columns = data.columns
+        combinations_list = list(combinations(columns, 2))
+        for col1, col2 in combinations_list:
+            ratio_calculator(data, col1, col2)
 
         # Checkbox for dropping NaN values
         st.sidebar.title("Remove rows with missing values")
@@ -157,7 +168,10 @@ def main():
           value = '')
 
         # Radio to toggle between different analysis types
-        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis",  "Data Visualizations", "Regression Modeling","KMeans Clustering"))
+        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", 
+                                                          "Data Visualizations", 
+                                                          "Regression Modeling",
+                                                          "KMeans Clustering"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
