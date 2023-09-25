@@ -381,6 +381,22 @@ def main():
 
                     st.write("Equation: " + equation)
                     st.write("R-squared: " + f"{r_squared:.4f}")
+
+                    # Residual analysis and QQ plot
+                    residuals = Y - Y_pred
+                    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+            
+                    # Scatter plot
+                    axes[0].scatter(X, residuals, alpha=0.6)
+                    axes[0].set_xlabel("Fitted Values")
+                    axes[0].set_ylabel("Residuals")
+                    axes[0].set_title("Residuals vs. Fitted Values")
+            
+                    # QQ plot
+                    sm.qqplot(residuals, line='s', ax=axes[1])
+                    axes[1].set_title("QQ Plot of Residuals")
+            
+                    st.pyplot(fig)
                     
                 else:
                     reg = LinearRegression().fit(X, Y)
