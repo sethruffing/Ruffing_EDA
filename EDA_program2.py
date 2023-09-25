@@ -382,7 +382,7 @@ def main():
 
                     st.write("Equation: " + equation)
                     st.write("R-squared: " + f"{r_squared:.4f}")
-
+                    
                     # Residual analysis and QQ plot
                     residuals = Y - Y_pred
             
@@ -392,11 +392,12 @@ def main():
                     scatter_fig.update_yaxes(title="Residuals")
             
                     # QQ plot
-                    qq_fig = ff.create_qq_plot(residuals, title="QQ Plot of Residuals")
+                    qq_plot = stats.probplot(residuals, dist="norm", plot=st)
             
-                    # Display both plots
+                    # Display the scatter plot and QQ plot
                     st.plotly_chart(scatter_fig)
-                    st.plotly_chart(qq_fig)
+                    st.write("QQ Plot of Residuals:")
+                    st.plotly_chart(qq_plot)
                     
                 else:
                     reg = LinearRegression().fit(X, Y)
