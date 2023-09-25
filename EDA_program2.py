@@ -383,22 +383,6 @@ def main():
                     st.write("Equation: " + equation)
                     st.write("R-squared: " + f"{r_squared:.4f}")
                     
-                    # Residual analysis and QQ plot
-                    residuals = Y - Y_pred
-            
-                    # Scatter plot of residuals
-                    scatter_fig = px.scatter(x=Y_pred, y=residuals, title="Residuals vs. Fitted Values")
-                    scatter_fig.update_xaxes(title="Fitted Values")
-                    scatter_fig.update_yaxes(title="Residuals")
-            
-                    # QQ plot
-                    qq_plot = stats.probplot(residuals, dist="norm", plot=st)
-            
-                    # Display the scatter plot and QQ plot
-                    st.plotly_chart(scatter_fig)
-                    st.write("QQ Plot of Residuals:")
-                    st.plotly_chart(qq_plot)
-                    
                 else:
                     reg = LinearRegression().fit(X, Y)
                     X_plot = np.linspace(X.min(), X.max(), 100).reshape(-1, 1)
