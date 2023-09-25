@@ -384,19 +384,18 @@ def main():
 
                     # Residual analysis and QQ plot
                     residuals = Y - Y_pred
-                    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
             
-                    # Scatter plot
-                    axes[0].scatter(X, residuals, alpha=0.6)
-                    axes[0].set_xlabel("Fitted Values")
-                    axes[0].set_ylabel("Residuals")
-                    axes[0].set_title("Residuals vs. Fitted Values")
+                    # Scatter plot of residuals
+                    scatter_fig = px.scatter(x=Y_pred, y=residuals, title="Residuals vs. Fitted Values")
+                    scatter_fig.update_xaxes(title="Fitted Values")
+                    scatter_fig.update_yaxes(title="Residuals")
             
                     # QQ plot
-                    sm.qqplot(residuals, line='s', ax=axes[1])
-                    axes[1].set_title("QQ Plot of Residuals")
+                    qq_fig = ff.create_qq_plot(residuals, title="QQ Plot of Residuals")
             
-                    st.pyplot(fig)
+                    # Display both plots
+                    st.plotly_chart(scatter_fig)
+                    st.plotly_chart(qq_fig)
                     
                 else:
                     reg = LinearRegression().fit(X, Y)
