@@ -183,22 +183,24 @@ def main():
 
         st.sidebar.title("Filters, Cleansing, and Conditions")
         st.sidebar.subheader("Filter 1")
-        selected_column_1 = st.sidebar.selectbox("Select a column to filter by", data.columns, key='sb1')
-        column_type_1 = data[selected_column_1].dtype
-
-        if column_type_1 == "object":  # Categorical column
-            filter_option_1 = "Categorical Filter"
-            filter_value_1 = st.sidebar.selectbox(f"Select a value from '{selected_column_1}'", data[selected_column_1].unique(), key='sb2')
-        elif np.issubdtype(column_type_1, np.number):  # Numerical column
-            if selected_column_1 in date_columns:
+        filter1_cb = st.sidebar.checkbox("Activate filter 1")
+        if filter1_cb:
+            selected_column_1 = st.sidebar.selectbox("Select a column to filter by", data.columns, key='sb1')
+            column_type_1 = data[selected_column_1].dtype
+    
+            if column_type_1 == "object":  # Categorical column
                 filter_option_1 = "Categorical Filter"
-                filter_value_1 = st.sidebar.selectbox(f"Select a value from '{selected_column_1}'", data[selected_column_1].unique(), key='sb2.5')
-            else:
-                filter_option_1 = "Numerical Filter"
-                numerical_filter_options_1 = ["None","1 (for dummies)","0 (for dummies)",">0","Above Mean", "Below Mean", "Above Median", "Below Median",
-                                            "Within 1 STD", "Within 2 STD", "Within 3 STD", "Above 25th Quantile", "Below 25th Quantile",
-                                             "Above 75th Quantile", "Below 75th Quantile" ]
-                filter_value_1 = st.sidebar.selectbox(f"Select a filter option for '{selected_column_1}'", numerical_filter_options_1, key='sb3')
+                filter_value_1 = st.sidebar.selectbox(f"Select a value from '{selected_column_1}'", data[selected_column_1].unique(), key='sb2')
+            elif np.issubdtype(column_type_1, np.number):  # Numerical column
+                if selected_column_1 in date_columns:
+                    filter_option_1 = "Categorical Filter"
+                    filter_value_1 = st.sidebar.selectbox(f"Select a value from '{selected_column_1}'", data[selected_column_1].unique(), key='sb2.5')
+                else:
+                    filter_option_1 = "Numerical Filter"
+                    numerical_filter_options_1 = ["None","1 (for dummies)","0 (for dummies)",">0","Above Mean", "Below Mean", "Above Median", "Below Median",
+                                                "Within 1 STD", "Within 2 STD", "Within 3 STD", "Above 25th Quantile", "Below 25th Quantile",
+                                                 "Above 75th Quantile", "Below 75th Quantile" ]
+                    filter_value_1 = st.sidebar.selectbox(f"Select a filter option for '{selected_column_1}'", numerical_filter_options_1, key='sb3')
 
         st.sidebar.subheader("Filter 2")
         selected_column_2 = st.sidebar.selectbox("Select a column to filter by", data.columns, key='sb4')
