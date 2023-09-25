@@ -248,17 +248,6 @@ def main():
         # Display the final filtered data
         st.subheader("Filtered Data")
         st.write(data)
-
-        st.sidebar.title("Save filtered CSV")
-        if st.sidebar.button("Save Filtered Data as CSV", key='save_csv'):
-            # Prompt user for the filename
-            csv_filename = st.sidebar.text_input("Enter CSV Filename (e.g., filtered_data.csv)", key='csv_filename')
-
-            if csv_filename:
-                # Save the filtered data to a CSV file
-                csv_data = data.to_csv(index=False, encoding='utf-8')
-                csv_file = io.StringIO(csv_data)
-                st.sidebar.download_button("Download CSV", csv_file, key='download_csv', args={'as_attachment': True}, file_name=csv_filename)
     #----------------------------------------------------------EDA Section-----------------------------------------------------------------------------
         # Exploratory Data Analysis
         if analysis_type == "Exploratory Data Analysis":
