@@ -170,7 +170,7 @@ def calculate_regression_metrics(data, x_column, y_column, degrees, test_size, r
 
         mse_diff = abs(mse_test - mse_train)
         r2_diff = abs(r2_test - r2_train)
-        opt = mse_diff + r2_diff - abs(mse_diff - r2_diff)
+        opt = (mse_diff + r2_diff - abs(mse_diff - r2_diff))/2
 
         results["Degree"].append(degree)
         results["MSE_diff"].append(mse_diff)
