@@ -598,7 +598,8 @@ def main():
                 period_size = len(y_data) // num_periods
                 
                 # Create aggregated data by grouping into periods and applying the selected aggregation function
-                aggregated_data = y_data.groupby(y_data.index // period_size).agg({x_axis_column: 'first', y_axis_column: aggregation_type}).reset_index()
+                aggregated_data = y_data.groupby(y_data.index // period_size)[y_axis_column].agg(aggregation_type).reset_index()
+                aggregated_data[x_axis_column] = y_data.groupby(y_data.index // period_size)[x_axis_column].first()
                 
                 # Create a line chart for the main line
                 fig = go.Figure()
