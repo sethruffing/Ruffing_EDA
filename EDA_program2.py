@@ -394,10 +394,6 @@ def main():
             if plot_regression:
                 X = data[x_column].values.reshape(-1, 1)
                 Y = data[y_column].values
-
-                degrees = [1,2,3,4,5,6,7,8,9,10]
-                optimal_deg = calculate_regression_metrics(data, x_column, y_column, degrees)
-                st.write(f'Optimal Degree to regress on: {optimal_deg}')
             
                 if degree > 1:
                     poly_features = PolynomialFeatures(degree=degree)
@@ -472,6 +468,10 @@ def main():
                 X = data[x_column].values.reshape(-1, 1)
                 Y = data[y_column].values
                 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
+
+                degrees = [1,2,3,4,5,6,7,8,9,10]
+                optimal_deg = calculate_regression_metrics(data, x_column, y_column, degrees)
+                st.write(f'Optimal Degree to regress on: {optimal_deg}')
 
                 # Calculate model accuracy metrics
                 if degree > 1:
