@@ -140,7 +140,7 @@ def ratio_calculator(df, col1, col2):
     col_name = f'{col1}/{col2}'
     df[col_name] = df[col1]/df[col2]
 
-def calculate_regression_metrics(data, x_column, y_column, degrees, test_size=0.2, random_state=42):
+def calculate_regression_metrics(data, x_column, y_column, degrees, test_size, random_state=42):
     """
     Finds the optimal degree that minimizes both %diff in MSE and R2
     """
@@ -470,8 +470,9 @@ def main():
                 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
 
                 degrees = [1,2,3,4,5,6,7,8,9,10]
-                optimal_deg = calculate_regression_metrics(data, x_column, y_column, degrees)
+                optimal_deg = calculate_regression_metrics(data, x_column, y_column, degrees, test_size)
                 st.write(f'Optimal Degree to regress on: {optimal_deg}')
+                st.text("See bottom of the page for more information on optimization technique")
 
                 # Calculate model accuracy metrics
                 if degree > 1:
