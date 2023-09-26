@@ -573,8 +573,6 @@ def main():
                 st.divider()
 
                 # Time Series-----------------------------------------------------------------------------------------------------------------------------------------------------------
-                st.subheader("Time Series Analysis (if applicable)")
-                
                 # Identify the x-axis column
                 x_axis_column = identify_x_axis(data)
                 
@@ -583,6 +581,9 @@ def main():
                 
                 # Allow the user to choose "Mean" or "Sum" with a unique key for the main line
                 aggregation_type = st.selectbox("Select Aggregation Type", ["Mean", "Sum"], key="aggregation_select")
+                
+                # Allow the user to input the number of periods for aggregation
+                num_periods = st.number_input("Number of Periods", min_value=1, max_value=len(data), value=52, key="num_periods_input")
                 
                 # Perform aggregation based on the user's selection for the main line
                 if aggregation_type == "Mean":
@@ -593,17 +594,23 @@ def main():
                 # Sort the data by the x-axis column in ascending order
                 y_data = y_data.sort_values(by=[x_axis_column])
                 
+                # Calculate the number of data points to include in each period
+                period_size = len(y_data) // num_periods
+                
+                # Create aggregated data by grouping into periods and applying the selected aggregation function
+                aggregated_data = y_data.groupby(y_data.index // period_size).agg({x_axis_column: 'first', y_axis_column: aggregation_type}).reset_index()
+                
                 # Create a line chart for the main line
                 fig = go.Figure()
                 
                 # Add the time series line trace
-                fig.add_trace(go.Scatter(x=y_data[x_axis_column], y=y_data[y_axis_column], mode='lines', name=f"{aggregation_type} {y_axis_column}"))
+                fig.add_trace(go.Scatter(x=aggregated_data[x_axis_column], y=aggregated_data[y_axis_column], mode='lines', name=f"{aggregation_type} {y_axis_column}"))
                 
                 # Specify axis labels and title
                 fig.update_layout(
                     xaxis_title=x_axis_column,
                     yaxis_title=y_axis_column,
-                    title=f"{aggregation_type} {y_axis_column} over Time"
+                    title=f"{aggregation_type} {y_axis_column} over Time (Aggregated)"
                 )
                 
                 # Specify that the x-axis is a date axis
