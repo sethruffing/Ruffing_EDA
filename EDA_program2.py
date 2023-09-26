@@ -140,6 +140,48 @@ def ratio_calculator(df, col1, col2):
     col_name = f'{col1}/{col2}'
     df[col_name] = df[col1]/df[col2]
 
+def calculate_regression_metrics(data, x_column, y_column, degrees, test_size=0.2, random_state=42):
+    """
+    Finds the optimal degree that minimizes both %diff in MSE and R2
+    """
+    results = {
+        "Degree": [],
+        "MSE_diff": [],
+        "R2_diff": [],
+        "opt": []
+    }
+
+    X = data[x_column].values.reshape(-1, 1)
+    Y = data[y_column].values
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=random_state)
+
+    for degree in degrees:
+        poly_features = PolynomialFeatures(degree=degree)
+        X_train_poly = poly_features.fit_transform(X_train)
+        X_test_poly = poly_features.transform(X_test)
+        reg = LinearRegression().fit(X_train_poly, Y_train)
+        Y_pred_train = reg.predict(X_train_poly)
+        Y_pred_test = reg.predict(X_test_poly)
+
+        mse_train = mean_squared_error(Y_train, Y_pred_train)
+        mse_test = mean_squared_error(Y_test, Y_pred_test)
+        r2_train = r2_score(Y_train, Y_pred_train)
+        r2_test = r2_score(Y_test, Y_pred_test)
+
+        mse_diff = abs(mse_test - mse_train)
+        r2_diff = abs(r2_test - r2_train)
+        opt = mse_diff + r2_diff - abs(mse_diff - r2_diff)
+
+        results["Degree"].append(degree)
+        results["MSE_diff"].append(mse_diff)
+        results["R2_diff"].append(r2_diff)
+        results["opt"].append(opt)
+
+    results_df = pd.DataFrame(results)
+    min_opt_degree = results_df.loc[results_df["opt"].idxmin()]["Degree"]
+
+    return int(min_opt_degree)
+
 def main():
     # Main Title and descriptions
     st.title("Exploratory Data Analysis and Model Building")
@@ -352,6 +394,10 @@ def main():
             if plot_regression:
                 X = data[x_column].values.reshape(-1, 1)
                 Y = data[y_column].values
+
+                degrees = [1,2,3,4,5,6,7,8,9,10]
+                optimal_deg = calculate_regression_metrics(data, x_column, y_column, degrees)
+                st.write(f'Optimal Degree to regress on: {optimal_deg}')
             
                 if degree > 1:
                     poly_features = PolynomialFeatures(degree=degree)
