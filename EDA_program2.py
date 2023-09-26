@@ -142,8 +142,8 @@ def ratio_calculator(df, col1, col2):
 
 def main():
     # Main Title and descriptions
-    st.title("Quick Analysis")
-    st.text("Upload a CSV to get started. The functions performed by this app is highly \nquantitative so, heavily qualitative datasets might not be supported")
+    st.title("Exploratory Data Analysis and Model Building")
+    st.text("Upload a CSV to get started")
 
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
