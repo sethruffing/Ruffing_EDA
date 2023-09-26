@@ -550,6 +550,24 @@ def main():
                     st.write("Significant variables:", ", ".join(significant_vars))
                 except:
                     st.text("There is an error with your regression.\nNote that you cannot regress on categorical variables, string variables, and \nmissing values")
+            st.divider()
+            st.subheader("Note on optimization technique")
+            st.write("""
+            Only degrees 1-10 are considered in this function, which should be a large enough range to minimize most functions. However, this may not always be the
+            case, and the user should attempt other optimization techniques. 
+
+            The first step to finding the the optimal degree is finding the MSE and the R-squared values from both the train and test groups. Next, find the percent
+            difference between the train and test groups. The closer to zero this difference is, the more accurate the trained model is at predicting values in the 
+            test group. The optimal degree is going to be the degree that corresponds with the absolute minimum between both of the following functions:
+
+            MSE_diff(degree) & R2_diff(degree)
+
+            Then, using the following formula at each degree 1-10 to combine the functions:
+
+            (f(x) + g(x) - |f(x) - g(x)|)/2
+
+            We simply find the degree that has the lowest value. 
+            """)
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         elif analysis_type == "Data Visualizations":
 
