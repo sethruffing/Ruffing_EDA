@@ -557,7 +557,7 @@ def main():
                 st.subheader("Bar Chart")
                 x_column = st.selectbox("Select X-axis column (binary or categorical)", data.columns)
                 y_column = st.selectbox("Select Y-axis column (numerical)", data.select_dtypes(include=['number']).columns)
-                aggregation_type = st.selectbox("Select Aggregation Type", ["Sum", "Mean","Median","Count"])
+                aggregation_type = st.selectbox("Select Aggregation Type", ["Sum", "Mean", "Median", "Count"])
                 
                 if aggregation_type == "Sum":
                     y_data = data.groupby(x_column)[y_column].sum().reset_index()
@@ -598,7 +598,7 @@ def main():
                 period_size = len(y_data) // num_periods
                 
                 # Create aggregated data by grouping into periods and applying the selected aggregation function
-                aggregated_data = y_data.groupby(y_data.index // period_size)[y_axis_column].agg(aggregation_type).reset_index()
+                aggregated_data = y_data.groupby(y_data.index // period_size)[y_axis_column].agg('mean').reset_index()
                 aggregated_data[x_axis_column] = y_data.groupby(y_data.index // period_size)[x_axis_column].first()
                 
                 # Create a line chart for the main line
