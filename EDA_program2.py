@@ -809,7 +809,7 @@ def main():
                     # Display clustering evaluation
                     st.subheader("Clustering Evaluation")
                     st.text(f"Clustering Accuracy (w.r.t. {testing_column}): {clustering_accuracy:.2f}")
-        elif analysis_type = "Multi-Objective Optimization"
+        elif analysis_type == "Multi-Objective Optimization"
             # User input for columns to optimize
             objectives = []
             for i in range(1, 4):
