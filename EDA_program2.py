@@ -294,7 +294,7 @@ def main():
 
         if column_type_3 == "object":  # Categorical column
             filter_option_3 = "Categorical Filter"
-            filter_value_3 = st.sidebar.multiselect(f"Select a value from '{selected_column_3}'", data[selected_column_3].unique(), key='sb8')
+            filter_value_3 = st.sidebar.selectbox(f"Select a value from '{selected_column_3}'", data[selected_column_3].unique(), key='sb8')
         elif np.issubdtype(column_type_3, np.number):  # Numerical column
             if selected_column_3 in date_columns:
                 filter_option_3 = "Categorical Filter"
