@@ -235,9 +235,9 @@ def main():
         # Check if the checkbox is enabled
         if create_stringed_int:
             data = create_stringed_integers(data)
-            # Putting tables on separate page    
-            if analysis_type == "Categorical To Numerical Dictionary":
-                display_categorical_explanations(data)
+          
+        if analysis_type == "Categorical To Numerical Dictionary":
+            display_categorical_explanations(create_stringed_integers(data))
         
         st.sidebar.divider()
 
