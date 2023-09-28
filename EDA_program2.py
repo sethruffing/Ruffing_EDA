@@ -213,7 +213,7 @@ def main():
         
         # Radio to toggle between different analysis types
         pages = ["Exploratory Data Analysis", "Data Visualizations", "Regression Modeling","KMeans Clustering","Categircal to Numerical Dictionary"]
-        analysis_type = st.select_box("Select Analysis Type", pages)
+        analysis_type = st.selectbox("Select Analysis Type", pages)
 
         # Checkbox for dropping NaN values
         st.sidebar.title("Options")
