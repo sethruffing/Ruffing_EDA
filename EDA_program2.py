@@ -188,7 +188,7 @@ def create_stringed_integers(data):
     for column in categorical_columns:
         unique_values = data[column].unique()
         value_mapping = {value: str(i) for i, value in enumerate(unique_values)}
-        data[column + "_str_int"] = data[column].map(value_mapping)
+        data[column + "_num"] = data[column].map(value_mapping)
     return data
 
 # Function to display explanation tables for categorical columns
@@ -197,7 +197,7 @@ def display_categorical_explanations(data):
     for column in categorical_columns:
         st.subheader(f"Explanation for '{column}'")
         value_mapping = {str(i): value for i, value in enumerate(data[column].unique())}
-        explanation_data = pd.DataFrame(list(value_mapping.items()), columns=["Stringed Integer", "Original Value"])
+        explanation_data = pd.DataFrame(list(value_mapping.items()), columns=["Number", "Original Value"])
         st.table(explanation_data)
 
 # MAIN APP ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -230,6 +230,9 @@ def main():
         # Check if the checkbox is enabled
         if create_stringed_int:
             data = create_stringed_integers(data)
+            # Display explanation tables for categorical columns
+        if create_stringed_int:
+            display_categorical_explanations(data)
         
         st.sidebar.divider()
 
