@@ -19,6 +19,8 @@ from sklearn.metrics import silhouette_score
 from sklearn.metrics import mean_squared_error, r2_score
 import statsmodels.api as sm
 from itertools import combinations
+from deap import base, creator, tools, algorithms
+import random
 
 import streamlit as st
 
