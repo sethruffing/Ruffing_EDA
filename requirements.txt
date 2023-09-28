@@ -5,3 +5,5 @@ scipy
 plotly
 scikit-learn
 statsmodels
+random
+deap
