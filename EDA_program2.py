@@ -192,7 +192,6 @@ def run_moo(data, objectives, pop_size, ngen, mu, lambda_, cxpb, mutpb):
 
 # Define the function to plot the Pareto front
 def plot_pareto_front(pareto_front, objectives):
-    # Create a DataFrame from the Pareto front
     df_pareto = pd.DataFrame(pareto_front, columns=[obj[0] for obj in objectives])
 
     # Determine whether to create a 2D or 3D plotly graph
