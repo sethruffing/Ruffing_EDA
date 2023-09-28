@@ -231,12 +231,13 @@ def main():
 
         # Checkbox to create stringed integers for categorical columns
         create_stringed_int = st.sidebar.checkbox("Assign Numbers for categorical columns")
+        
         # Check if the checkbox is enabled
         if create_stringed_int:
             data = create_stringed_integers(data)
 
         # Putting tables on separate page    
-        if analysis_type == "Categorical To Numerical Dictionary":
+        if analysis_type == "Categorical To Numerical Dictionary" and create_stringed_int == True:
             display_categorical_explanations(data)
         
         st.sidebar.divider()
