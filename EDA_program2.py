@@ -186,10 +186,6 @@ def calculate_regression_metrics(data, x_column, y_column, degrees, test_size, r
 
     return int(min_opt_degree)
 
-# Define the MOO function with user-specified parameters
-def run_moo(data, objectives, pop_size, ngen, mu, lambda_, cxpb, mutpb):
-    # ... MOO code here ...
-
 # Define the function to plot the Pareto front
 def plot_pareto_front(pareto_front, objectives):
     df_pareto = pd.DataFrame(pareto_front, columns=[obj[0] for obj in objectives])
