@@ -1,3 +1,4 @@
+# IMPORTS 
 import streamlit as st
 import pandas as pd
 from tabulate import tabulate
@@ -21,6 +22,7 @@ from itertools import combinations
 
 import streamlit as st
 
+# SESSION
 st.session_state['answer'] = ''
 
 realans = ['', 'abc', 'edf']
@@ -29,7 +31,7 @@ if  st.session_state['answer'] in realans:
     answerStat = "correct"
 elif st.session_state['answer'] not in realans:
     answerStat = "incorrect"
-
+# PREDEF FUNCTIONS ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # function that makes interaction terms for regression table
 def create_and_append_interaction_terms(data, independent_vars, interaction_terms):
     for interaction in interaction_terms:
@@ -182,6 +184,25 @@ def calculate_regression_metrics(data, x_column, y_column, degrees, test_size, r
 
     return int(min_opt_degree)
 
+# Define the MOO function with user-specified parameters
+def run_moo(data, objectives, pop_size, ngen, mu, lambda_, cxpb, mutpb):
+    # ... MOO code here ...
+
+# Define the function to plot the Pareto front
+def plot_pareto_front(pareto_front, objectives):
+    # Create a DataFrame from the Pareto front
+    df_pareto = pd.DataFrame(pareto_front, columns=[obj[0] for obj in objectives])
+
+    # Determine whether to create a 2D or 3D plotly graph
+    if len(objectives) == 2:
+        fig = px.scatter(df_pareto, x=objectives[0][0], y=objectives[1][0], title="Pareto Frontier")
+    elif len(objectives) == 3:
+        fig = px.scatter_3d(df_pareto, x=objectives[0][0], y=objectives[1][0], z=objectives[2][0], title="Pareto Frontier")
+
+    # Display the plotly graph
+    st.plotly_chart(fig)
+
+# MAIN APP ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     # Main Title and descriptions
     st.title("Exploratory Data Analysis and Model Building")
@@ -216,7 +237,8 @@ def main():
         analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", 
                                                           "Data Visualizations", 
                                                           "Regression Modeling",
-                                                          "KMeans Clustering"))
+                                                          "KMeans Clustering",
+                                                          "Multi-Objective Optimization"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
@@ -790,6 +812,30 @@ def main():
                     # Display clustering evaluation
                     st.subheader("Clustering Evaluation")
                     st.text(f"Clustering Accuracy (w.r.t. {testing_column}): {clustering_accuracy:.2f}")
+        elif analysis_type = "Multi-Objective Optimization"
+            # User input for columns to optimize
+            objectives = []
+            for i in range(1, 4):
+                col_name = st.selectbox(f"Select Objective {i}", data.columns)
+                maximize = st.checkbox(f"Maximize {col_name}", value=True)
+                objectives.append((col_name, maximize))
+    
+            # User input for optimization parameters
+            st.subheader("Optimization Parameters")
+            pop_size = st.slider("Population Size", min_value=10, max_value=500, value=100)
+            ngen = st.slider("Number of Generations", min_value=10, max_value=500, value=100)
+            mu = st.slider("Mu", min_value=1, max_value=pop_size, value=50)
+            lambda_ = st.slider("Lambda", min_value=mu, max_value=pop_size*2, value=100)
+            cxpb = st.slider("Crossover Probability", min_value=0.0, max_value=1.0, value=0.7)
+            mutpb = st.slider("Mutation Probability", min_value=0.0, max_value=1.0, value=0.2)
+    
+            # Perform MOO based on user input
+            if st.button("Run MOO"):
+                pareto_front = run_moo(data, objectives, pop_size, ngen, mu, lambda_, cxpb, mutpb)
+                plot_pareto_front(pareto_front, objectives)
+
+            
+            
     else:
         st.subheader("About the app")
         st.write("This app was created by Seth Ruffing (TAMU Co'23) in order to perform exploratory analysis on CSV files. Current analyses include bivariate analyses, data visualizations, in-depth regression model building, and KMeans clustering")
