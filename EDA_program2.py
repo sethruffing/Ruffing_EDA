@@ -210,6 +210,10 @@ def main():
 
     if uploaded_file is not None:
         data = pd.read_csv(uploaded_file)
+        
+        # Radio to toggle between different analysis types
+        pages = ["Exploratory Data Analysis", "Data Visualizations", "Regression Modeling","KMeans Clustering"]
+        analysis_type = st.radio("Select Analysis Type", pages)
 
         # Checkbox for dropping NaN values
         st.sidebar.title("Options")
@@ -232,6 +236,7 @@ def main():
             data = create_stringed_integers(data)
             # Display explanation tables for categorical columns
         if create_stringed_int:
+            # putting the tables on a new page
             display_categorical_explanations(data)
         
         st.sidebar.divider()
@@ -240,12 +245,6 @@ def main():
         data.insert(loc = 0,
           column = 'None',
           value = '')
-
-        # Radio to toggle between different analysis types
-        analysis_type = st.radio("Select Analysis Type", ("Exploratory Data Analysis", 
-                                                          "Data Visualizations", 
-                                                          "Regression Modeling",
-                                                          "KMeans Clustering"))
 
         st.sidebar.title("Narrow down columns")
         selected_columns = st.sidebar.multiselect("Select Columns to Keep", data.columns)
