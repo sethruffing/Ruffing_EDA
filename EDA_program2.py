@@ -289,12 +289,12 @@ def main():
                 filter_value_2 = st.sidebar.selectbox(f"Select a filter option for '{selected_column_2}'", numerical_filter_options_2, key='sb6')
 
         st.sidebar.subheader("Filter 3")
-        selected_column_3 = st.sidebar.selectbox("Select a column to filter by", data.columns, key='sb7')
+        selected_column_3 = st.sidebar.selectbox("Select a columns to filter by", data.columns, key='sb7')
         column_type_3 = data[selected_column_3].dtype
 
         if column_type_3 == "object":  # Categorical column
             filter_option_3 = "Categorical Filter"
-            filter_value_3 = st.sidebar.selectbox(f"Select a value from '{selected_column_3}'", data[selected_column_3].unique(), key='sb8')
+            filter_value_3 = st.sidebar.multiselect(f"Select a value from '{selected_column_3}'", data[selected_column_3].unique(), key='sb8')
         elif np.issubdtype(column_type_3, np.number):  # Numerical column
             if selected_column_3 in date_columns:
                 filter_option_3 = "Categorical Filter"
