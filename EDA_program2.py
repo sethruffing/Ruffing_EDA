@@ -212,7 +212,7 @@ def main():
         data = pd.read_csv(uploaded_file)
         
         # Radio to toggle between different analysis types
-        pages = ["Exploratory Data Analysis", "Data Visualizations", "Regression Modeling","KMeans Clustering"]
+        pages = ["Exploratory Data Analysis", "Data Visualizations", "Regression Modeling","KMeans Clustering","Categircal to Numerical Dictionary"]
         analysis_type = st.radio("Select Analysis Type", pages)
 
         # Checkbox for dropping NaN values
@@ -234,13 +234,12 @@ def main():
         # Check if the checkbox is enabled
         if create_stringed_int:
             data = create_stringed_integers(data)
-            # Display explanation tables for categorical columns
-        if create_stringed_int:
-            # putting the tables on a new page
-            pages.append("Categorical to Number Dictionary")
-            
-        if analysis_type == "Categorical to Number Dictionary":
-            display_categorical_explanations(data)
+
+        
+        # Putting tables on separate page    
+        if analysis_type == "Categorical To Numerical Dictionary":
+            if create_stringed_int:
+                display_categorical_explanations(data)
         
         st.sidebar.divider()
 
