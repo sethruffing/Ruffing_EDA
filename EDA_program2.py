@@ -182,6 +182,24 @@ def calculate_regression_metrics(data, x_column, y_column, degrees, test_size, r
 
     return int(min_opt_degree)
 
+# Function to create stringed integers for categorical columns
+def create_stringed_integers(data):
+    categorical_columns = data.select_dtypes(include=["object"]).columns
+    for column in categorical_columns:
+        unique_values = data[column].unique()
+        value_mapping = {value: str(i) for i, value in enumerate(unique_values)}
+        data[column + "_str_int"] = data[column].map(value_mapping)
+    return data
+
+# Function to display explanation tables for categorical columns
+def display_categorical_explanations(data):
+    categorical_columns = data.select_dtypes(include=["object"]).columns
+    for column in categorical_columns:
+        st.subheader(f"Explanation for '{column}'")
+        value_mapping = {str(i): value for i, value in enumerate(data[column].unique())}
+        explanation_data = pd.DataFrame(list(value_mapping.items()), columns=["Stringed Integer", "Original Value"])
+        st.table(explanation_data)
+
 # MAIN APP ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 def main():
     # Main Title and descriptions
@@ -206,6 +224,13 @@ def main():
             combinations_list = list(combinations(columns, 2))
             for col1, col2 in combinations_list:
                 ratio_calculator(data, col1, col2)
+
+        # Checkbox to create stringed integers for categorical columns
+        create_stringed_int = st.sidebar.checkbox("Assign Numbers for categorical columns")
+        # Check if the checkbox is enabled
+        if create_stringed_int:
+            data = create_stringed_integers(data)
+        
         st.sidebar.divider()
 
         # Inseting None Column
