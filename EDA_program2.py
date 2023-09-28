@@ -237,6 +237,9 @@ def main():
             # Display explanation tables for categorical columns
         if create_stringed_int:
             # putting the tables on a new page
+            pages.append("Categorical to Number Dictionary")
+            
+        if analysis_type == "Categorical to Number Dictionary":
             display_categorical_explanations(data)
         
         st.sidebar.divider()
