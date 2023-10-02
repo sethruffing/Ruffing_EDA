@@ -95,7 +95,7 @@ def filter_data(data, selected_column, filter_option, filter_value):
 
 date_columns = ["Year", "Date", "date", 
                 "year","timeperiod","released_year", 
-                "time", "Time", "TIME",]  # Add other similar column names here
+                "time", "Time", "TIME", 'Date_x']  # Add other similar column names here
 
 def treat_date_columns(data):
     for column in date_columns:
