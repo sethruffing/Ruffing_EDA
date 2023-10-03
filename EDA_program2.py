@@ -204,7 +204,7 @@ def display_categorical_explanations(data):
 def main():
     # Main Title and descriptions
     st.title("Exploratory Data Analysis and Model Building")
-    st.text("Upload a CSV to get started")
+    st.text("Upload a CSV to get started. Note that CSV files with size over 10,000KB will cause program to run slow.")
 
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
