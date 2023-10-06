@@ -402,6 +402,7 @@ def main():
             # Checkbox to enable regression line
             plot_regression = st.checkbox("Plot Regression Line",key='prl')
             tts_box = st.checkbox("Train-Test Split",key='tts')
+            qq_plot = st.checkbox("QQ-Plot (Only for linear models)",key='qq')
             degree = st.slider("Select Polynomial Degree", min_value=1, max_value=10, value=1)
             
             # Create a scatter plot using Plotly Graph Objects
@@ -486,6 +487,23 @@ def main():
                 yaxis_title=y_column,
                 title="Scatter Plot with Regression Line"
             )
+            if qq_plot:
+                def qq_plot():
+                    
+                    X = sm.add_constant(x_column)  
+                    y = y_column
+                    model = sm.OLS(y, X).fit()  
+                    residuals = model.resid  
+
+                    plt.figure(figsize=(8, 8))
+                    stats.probplot(residuals, dist="norm", plot=plt)
+                    plt.title('QQ Plot of Residuals')
+                    plt.xlabel('Theoretical Quantiles')
+                    plt.ylabel('Residuals Quantiles')
+                    plt.grid(True)
+                
+                    # Display the plot in Streamlit
+                    st.pyplot(plt)
 
             if tts_box:
                 # Input for train-test split ratio
