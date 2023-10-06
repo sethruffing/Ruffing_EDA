@@ -490,7 +490,7 @@ def main():
             
             if qq_plot:
                 # setting variables for the function
-                X = x_column 
+                X = sm.add_constant(x_column)
                 y = y_column
                 model = sm.OLS(y, X).fit()  
                 residuals = model.resid  
