@@ -487,28 +487,6 @@ def main():
                 yaxis_title=y_column,
                 title="Scatter Plot with Regression Line"
             )
-            
-            if qq_plot:
-                # setting variables for the function
-                X = sm.add_constant(x_column)
-                y = y_column
-                model = sm.OLS(y, X).fit()  
-                residuals = model.resid  
-
-                #function that plots the QQ plot
-                def qq_plot(residuals):
-                    plt.figure(figsize=(8, 8))
-                    stats.probplot(residuals, dist="norm", plot=plt)
-                    plt.title('QQ Plot of Residuals')
-                    plt.xlabel('Theoretical Quantiles')
-                    plt.ylabel('Residuals Quantiles')
-                    plt.grid(True)
-                
-                    # Display the plot in Streamlit
-                    st.pyplot(plt)
-                    
-                # Call the QQ plot function with your residuals
-                qq_plot(residuals)
 
             if tts_box:
                 # Input for train-test split ratio
