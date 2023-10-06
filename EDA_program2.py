@@ -487,6 +487,7 @@ def main():
                 yaxis_title=y_column,
                 title="Scatter Plot with Regression Line"
             )
+            
             if qq_plot:
                 def qq_plot():
                     
@@ -504,6 +505,8 @@ def main():
                 
                     # Display the plot in Streamlit
                     st.pyplot(plt)
+                # Call the QQ plot function with your residuals
+                qq_plot(residuals)
 
             if tts_box:
                 # Input for train-test split ratio
